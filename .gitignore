@@ -1,5 +1,8 @@
 rsrc.syso
+*.syso
+output
 release
+temp
 clipboard-online.exe
 config.json
 log.txt

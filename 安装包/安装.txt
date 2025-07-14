@@ -1,0 +1,11 @@
+安装完 go1.24.5.windows-amd64.msi 之后 
+执行
+go install -v github.com/go-delve/delve/cmd/dlv@latest
+go install github.com/akavel/rsrc@latest
+
+rsrc -manifest clipboard-online.manifest -ico app.ico -o rsrc.syso
+
+// 下面这些不用安装
+go install github.com/tc-hib/go-winres@latest // 安装一个能处理 Windows 资源的 Go 工具：
+go-winres init //初始化 winres.json 配置文件
+go-winres make //运行 go-winres 命令。它会自动查找项目中的 *.manifest 和图标文件，并将它们打包。

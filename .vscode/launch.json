@@ -1,0 +1,13 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Debug Clipboard-Online",
+            "type": "go",
+            "request": "launch",
+            "mode": "exec",
+            "program": "${workspaceFolder}/output/clipboard-online.exe",
+            "preLaunchTask": "Build for VSCode Debugging"
+        }
+    ]
+}

@@ -1,0 +1,52 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            // 新增任务一：检查并创建 output 目录
+            // 使用 PowerShell 命令，如果目录不存在，则创建它
+            "label": "Create Output Directory",
+            "type": "shell",
+            "command": "if (!(Test-Path -Path 'output')) { New-Item -ItemType Directory -Path 'output' }"
+        },
+        {
+            // 任务二：生成资源文件 (与之前相同)
+            "label": "Generate Resources",
+            "type": "process",
+            "command": "rsrc",
+            "args": [
+                "-manifest",
+                "clipboard-online.manifest",
+                "-ico",
+                "app.ico",
+                "-o",
+                "rsrc.syso"
+            ]
+        },
+        {
+            // 任务三：编译 Go 程序 (修改了 dependsOn)
+            "label": "Build for VSCode Debugging",
+            "type": "process",
+            "command": "go",
+            "args": [
+                "build",
+                "-o",
+                "${workspaceFolder}/output/clipboard-online.exe",
+                "-ldflags",
+                "-H windowsgui -X 'main.mode=debug' -X 'main.version=vscode-debug'"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "presentation": {
+                "reveal": "silent",
+                "clear": true
+            },
+            // 👇 关键改动：现在依赖于上面两个任务
+            "dependsOn": [
+                "Create Output Directory",
+                "Generate Resources"
+            ]
+        }
+    ]
+}
