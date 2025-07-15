@@ -2,7 +2,7 @@ package main
 
 import (
 	"encoding/json"
-	"io/ioutil"
+	"os"
 
 	"github.com/YanxinTang/clipboard-online/utils"
 	"github.com/sirupsen/logrus"
@@ -52,7 +52,7 @@ func loadConfig(path string) (*Config, error) {
 }
 
 func loadConfigFromFile(path string) (*Config, error) {
-	configBytes, err := ioutil.ReadFile(path)
+	configBytes, err := os.ReadFile(path)
 	if err != nil {
 		return nil, err
 	}
@@ -68,7 +68,7 @@ func createConfigFile(path string) error {
 		return err
 	}
 
-	if err := ioutil.WriteFile(path, []byte(defaultConfigJSON), 0744); err != nil {
+	if err := os.WriteFile(path, []byte(defaultConfigJSON), 0744); err != nil {
 		return err
 	}
 	return nil

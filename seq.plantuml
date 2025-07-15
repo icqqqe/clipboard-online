@@ -1,0 +1,20 @@
+@startuml
+actor Client
+participant "HTTP Server (gin)"
+participant "server.go"
+participant "utils.ClipboardService"
+participant "Windows Clipboard"
+
+Client -> "HTTP Server (gin)": GET /
+"HTTP Server (gin)" -> "server.go": getHandler(c)
+"server.go" -> "utils.ClipboardService": ContentType()
+"utils.ClipboardService" -> "Windows Clipboard": GetClipboardData()
+"Windows Clipboard" --> "utils.ClipboardService": CF_UNICODETEXT
+"utils.ClipboardService" --> "server.go": "text"
+"server.go" -> "utils.ClipboardService": Text()
+"utils.ClipboardService" -> "Windows Clipboard": GetClipboardData()
+"Windows Clipboard" --> "utils.ClipboardService": "clipboard content"
+"utils.ClipboardService" --> "server.go": "clipboard content"
+"server.go" --> "HTTP Server (gin)": JSON Response
+"HTTP Server (gin)" --> Client: 200 OK with JSON
+@enduml
