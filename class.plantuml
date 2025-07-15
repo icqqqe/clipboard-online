@@ -1,0 +1,44 @@
+@startuml
+class Application {
+  +config: *Config
+  +MainWindow: *walk.MainWindow
+  +ni: *walk.NotifyIcon
+  +wg: sync.WaitGroup
+  +RunHTTPServer()
+  +StopHTTPServer()
+  +BeforeExit()
+  +AddActions(...*walk.Action)
+  +GetTempFilePath(filename string): string
+}
+
+class Config {
+  +Port: string
+  +Authkey: string
+  +AuthkeyExpiredTimeout: int64
+  +LogLevel: logrus.Level
+  +TempDir: string
+  +ReserveHistory: bool
+  +Notify: ConfigNotify
+}
+
+class server {
+  +setupRoute(*gin.Engine)
+  +getHandler(*gin.Context)
+  +setHandler(*gin.Context)
+  +...
+}
+
+class utils.ClipboardService {
+  +ContentType(): (string, error)
+  +Text(): (string, error)
+  +Bitmap(): ([]byte, error)
+  +Files(): ([]string, error)
+  +SetText(string): error
+  +SetFiles([]string): error
+}
+
+Application -> Config
+Application -> server
+server -> utils.ClipboardService
+main -> Application
+@enduml

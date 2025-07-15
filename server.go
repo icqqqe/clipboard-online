@@ -8,7 +8,6 @@ import (
 	"encoding/hex"
 	"fmt"
 	"image/png"
-	"io/ioutil"
 	"net/http"
 	"net/url"
 	"os"
@@ -215,7 +214,7 @@ func getHandler(c *gin.Context) {
 }
 
 func readBase64FromFile(path string) (string, error) {
-	fileBytes, err := ioutil.ReadFile(path)
+	fileBytes, err := os.ReadFile(path)
 	if err != nil {
 		return "", err
 	}
@@ -376,11 +375,11 @@ func sendNotification(logger *logrus.Logger, action, client, notify string) {
 func setLastFilenames(filenames []string) {
 	path := app.GetTempFilePath("_filename.txt")
 	allFilenames := strings.Join(filenames, "\n")
-	_ = ioutil.WriteFile(path, []byte(allFilenames), os.ModePerm)
+	_ = os.WriteFile(path, []byte(allFilenames), os.ModePerm)
 }
 
 func newFile(path string, bytes []byte) error {
-	return ioutil.WriteFile(path, bytes, 0644)
+	return os.WriteFile(path, bytes, 0644)
 }
 
 func cleanTempFiles() {
